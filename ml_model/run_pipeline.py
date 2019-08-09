@@ -61,8 +61,8 @@ def train_model():
     filepath = MODEL_PATH
     checkpoint = ModelCheckpoint(filepath, monitor='loss', verbose=1, save_best_only=True, mode='min')
     callbacks_list = [checkpoint]
-    model = create_model()
-    model.fit(X, y, epochs=20, batch_size=128, callbacks=callbacks_list)
+    model = create_model(input_shape=(X.shape[1], X.shape[2]), output_shape=y.shape[1])
+    model.fit(X, y, epochs=1, batch_size=64, callbacks=callbacks_list)
     K.clear_session()
     return 0
 

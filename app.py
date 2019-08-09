@@ -30,9 +30,6 @@ ma = Marshmallow(app)
 def predict():
     K.clear_session()
 
-    model = create_model()
-    model.load_weights(MODEL_PATH)
-    model.compile(loss='categorical_crossentropy', optimizer='adam')
 
     filename = TRAINING_DATA_FILE
     raw_text = open(filename, encoding="UTF-8").read()
@@ -43,6 +40,12 @@ def predict():
     n_vocab = len(chars)
     n_chars = len(raw_text)
     seq_length = 100
+    
+
+    model = create_model(input_shape=(seq_length,1),output_shape=n_vocab)
+    model.load_weights(MODEL_PATH)
+    model.compile(loss='categorical_crossentropy', optimizer='adam')
+    
     dataX = []
     dataY = []
     for i in range(0, n_chars - seq_length, 1):
